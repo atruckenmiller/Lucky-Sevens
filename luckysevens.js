@@ -1,58 +1,46 @@
-function LuckySevens(){
+function rollDice() {
+	return Math.floor(Math.random() * 6)
+}
 
-var initialBet =
-document.getelementById("initialBet").value;
-var money = 0;
-var die1 = 0;
-var die2 = 0;
-var dice = 0;
-var roll tally = 0;
-var unluckycounter = 0;
-var money = initialbet;
-var money held = [initialBet];
-var win = 4;
-var loss = 1;
-var maxHeld = 0;
-// var maxHeld counter = [0];
-
-do { 
-// dice roller radomizer
-		rollTally++;
-		die1 = Math.floor(Math.random() * 6) + 1;
-		die2 = Math.floor(Math.random() * 6) + 1;	
-		dice = die1+die2;
-
-			// WINNER
-			if (dice == 7){
-			money = money+win; // add $4 to money used to make bets
-			var last_element = moneyHeld[moneyHeld.length -1]; // get value of last element of moneyHeld array that is used to show current money held by player after last roll
-			var last_updated = last_element + win; // adds $4 to previous roll winnings and stores in last_updated
-			moneyHeld.push(last_updated);
-
-			// LOSER
-			}else {
-			money--;
-			unLuckyCounter++;
-				// maxMoney.push(0);
-			var last_element = moneyHeld[moneyHeld.length -1];
-			var last_updated = last_element - loss;
-			moneyHeld.push(last_updated);
-			rollTally = rollTally++;
-			}
-
-
-	}while(money>0);
-	var totalMax = 0;
-
-	totalMax = Math.max.apply(Math, moneyHeld); // finds max value in moneyHeld array
-	numRolls = moneyHeld.indexOf(totalMax); // finds number of rolls till max moneyHeld array
-	if(numRolls<1){
-		numRolls = 0;
+function play(){
+	var stBet = Number(document.forms["luckySevens"]["bet"].value;
+	var money = stBet;
+	var firstDie;
+	var secondDie;
+	var diceSum;
+	var maxWinnings = 0;
+	var rolls = 0;	
+	var rollsAtMax = 0;
+	
+	if(money<=0){		
+		alert("Starting bet needs to be greater than $0");
 	}
-
-	document.getElementById("p1").innerHTML=("<center><br><br><table style=\"width: 100% height: 100%;\"><th colspan=\"2\"; class=\"th1\">Results</th><tr><th class=\"th2\">Starting Bet</th><th class=\"th2\">$" + initialBet + ".00</th></tr><tr><td>Total Rolls Before Going Broke</td><td>"+ rollTally +"</td></tr><tr><td>Highes Amount Won</td><td>"+totalMax+"</td></tr><tr><td>Roll Count at Highest Amount Held</td><td>"+ numRolls + "</td></tr></table></center>");
-	document.getElementById("p2").innerHTML="Play Again";
-
-} // end of lucky sevens function
-
-
+	else{
+		while(money > 0){
+			firstDie = rollDice();
+			secondDie = rollDice();
+			diceSum = firstDie + secondDie;
+			rolls++;
+			if(diceSum != 7){
+				money--;
+				console.log("lost");
+			}
+			else{
+				money += 4;
+				if(money > maxWinnings){
+					maxWinnings += (money-maxWinnings);
+					rollsAtMax = rolls;
+				}
+				console.log("win")
+			}
+		}
+	}
+	document.getElementById("results") style display = "block";
+	document.getElementById("submitButton").innerText = "Play Again!";
+	document.getElementById("start").innerText = stBet;
+	document.getElementById("rollsNum").innerText = rolls;
+	document.getElementById("max").innerText = maxWinnings;
+	document.getElementById("rollsAtMax").innerText = rollsAtMax;
+	return false;
+}
+				
